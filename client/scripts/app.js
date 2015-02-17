@@ -24,46 +24,58 @@ $(document).on('ready', function () {
 
 
   var friends = {};
-  var update = function (response) {
-    console.log(response);
-    var div = $('<div></div>');
-    for(var i = 0, count = response.results.length; i < count; i++){
-      var text;
-      if (response.results[i].text !== undefined && response.results[i].text !== null) {
-        text = removeTags(response.results[i].text);
-      }
-      else{
-        text = ""
-      }
-      var createdAt = removeTags(response.results[i].createdAt);
-      var roomName;
-      if (response.results[i].roomname !== undefined && response.results[i].roomname !== null){
-        roomName = removeTags(response.results[i].roomname);
-      }
-      else{
-        roomName = "unknown";
-      }
-      var userName;
-      if (response.results[i].username !== undefined && response.results[i].username !== null){
-        userName = removeTags(response.results[i].username);
-      }
-      else{
-        userName = undefined;
-      }
 
-      var content = $('<p></p>');
-      if (friends[userName] === undefined){
-        content.append('Username: ' + '<div class="clickMe">' + response.results[i].username + '</div>' + '<br>');
+  var newUpdate = function () {
+    var currentRoom = $('#currentRoom').text();
+    var where = '{"roomname":' + '"' + currentRoom + '"' + '}';
+    var roomName = $('#currentRoom').text();
+    $.ajax('https://api.parse.com/1/classes/chatterbox', {
+      type: 'GET',
+      data: {where: where, order: '-createdAt', limit: "10"},
+      success: function (response) {
+        var div = $('<div></div>');
+        for(var i = 0, count = response.results.length; i < count; i++){
+          var text;
+          if (response.results[i].text !== undefined && response.results[i].text !== null) {
+            text = removeTags(response.results[i].text);
+          }
+          else{
+            text = ""
+          }
+          var createdAt = removeTags(response.results[i].createdAt);
+          var roomName;
+          if (response.results[i].roomname !== undefined && response.results[i].roomname !== null){
+            roomName = removeTags(response.results[i].roomname);
+          }
+          else{
+            roomName = "unknown";
+          }
+          var userName;
+          if (response.results[i].username !== undefined && response.results[i].username !== null){
+            userName = removeTags(response.results[i].username);
+          }
+          else{
+            userName = undefined;
+          }
+
+          var content = $('<p></p>');
+          if (friends[userName] === undefined){
+            content.append('Username: ' + '<div class="clickMe">' + response.results[i].username + '</div>' + '<br>');
+          }
+          else{
+            content.append('Username: ' + '<strong>' + response.results[i].username + '</strong>' + '<br>');
+          }
+          content.append('Text: ' + text + '<br>');
+          content.append('Create At: ' + createdAt+ '<br>');
+          content.append('Room Name: ' + roomName + '<br>');
+          div.append(content);
+        }
+        $('.content').html(div);
+      },
+      contentType: 'application/json',
+      error: function (errorMessage, errorType, error) {
       }
-      else{
-        content.append('Username: ' + '<strong>' + response.results[i].username + '</strong>' + '<br>');
-      }
-      content.append('Text: ' + text + '<br>');
-      content.append('Create At: ' + createdAt+ '<br>');
-      content.append('Room Name: ' + roomName + '<br>');
-      div.append(content);
-    }
-    $('.content').html(div);
+    });
   };
 
   $('body').on('click', '.clickMe', function(event){
@@ -72,42 +84,32 @@ $(document).on('ready', function () {
       console.log($(this).text());
       friends[$(this).text()] = $(this).text();
       $('#friends').append("<li>" + $(this).text() + "</li>");
+      newUpdate();
     }
 
   });
 
   $('body').on('submit', '.name', function (event) {
     event.preventDefault();
-    $('.currentUserName').text($('#username').val());
+    $('#currentUserName').text($('#username').val());
   });
 
   $('body').on('submit', '.room', function (event) {
     event.preventDefault();
-    $('.currentRoom').text($('#roomname').val());
+    $('#currentRoom').text($('#roomname').val());
+    newUpdate();
   });
 
   $('body').on('click', '.refresh', function () {
-
-    var roomName = $('.currentRoom').text();
-    $.ajax('https://api.parse.com/1/classes/chatterbox', {
-      type: 'GET',
-      data: 'where={"roomname":'+ '"' + roomName +'"' +'}',
-      data: 'order=-createdAt',
-      success: function (response) {
-        update(response);
-      },
-      contentType: 'application/json',
-      error: function (errorMessage, errorType, error) {
-      }
-    });
-  })
+    newUpdate();
+  });
 
   $('body').on('submit', '.message', function (event){
     event.preventDefault();
     var obj = {
-      "username": $('#username').val(),
+      "username": $('#currentUserName').text(),
       "text": $('#text').val(),
-      "roomname": $('#roomname').val()
+      "roomname": $('#currentRoom').text()
     };
 
     var JSONobj = JSON.stringify(obj);
@@ -117,16 +119,8 @@ $(document).on('ready', function () {
       data: JSONobj,
       dataType: 'json',
       contentType: 'application/json',
-      success: function (response) {
-        console.log(response);
-        $.ajax('https://api.parse.com/1/classes/chatterbox', {
-          success: function (response) {
-            update(response);
-          },
-          contentType: 'application/json',
-          error: function (errorMessage, errorType, error) {
-          }
-        });
+      success: function () {
+        newUpdate();
       },
       error: function () {
         console.log('data was not submitted');
@@ -135,6 +129,8 @@ $(document).on('ready', function () {
 
   })
 
+  newUpdate();
+  setInterval(newUpdate, 1000);
   /// END OF DOCUMENT REA
 });
 

@@ -5,21 +5,29 @@ body {
     font-family: arial, sans-serif;
 }
 
-#main {
-    width: 500px;
+.wrapper {
+    width: 800px;
     margin: auto;
+    text-align: left;
+    background: white;
+}
+
+.wrapper h1 {
+    margin-top: 0;
+    font-size: 35px;
+    margin-bottom: 5px;
+    padding: 5px;
+}
+
+#main {
+    width: 530px;
+    float: right;
+    display: inline;
     text-align: left;
     background: white;
     padding: 50px 60px;
     border: solid #ddd;
     border-width: 0 1px 1px 1px;
-}
-
-#main h1 {
-    margin-top: 0;
-    font-size: 35px;
-    margin-bottom: 5px;
-    padding: 5px;
 }
 
 #main h1 span {
@@ -30,22 +38,6 @@ body {
     padding-left: 20px;
 }
 
-#main .error {
-    border: 1px solid red;
-    background: #FDEFF0;
-    padding: 20px;
-}
-
-#main .success {
-    margin-top: 25px;
-}
-
-#main .success code {
-    font-size: 12px;
-    color: green;
-    line-height: 13px;
-}
-
 form {
     padding: 20px;
     padding-left: 0;
@@ -53,34 +45,10 @@ form {
 }
 
 form input[type=text] {
-    margin-right: 10px;
-    width: 70%;
+    margin-bottom: 10px;
+    width: 90%;
     font-size: 12px;
     padding: 5px;
-}
-
-.chat {
-    padding: 5px;
-    margin-bottom: 5px;
-    background-color: #eee;
-}
-
-.chat .username {
-    font-weight: 800;
-}
-
-.chat:hover {
-    background-color: #ddd;
-}
-
-.spinner {
-    float: right;
-    height: 46px;
-    margin-bottom: 5px;
-}
-
-.spinner img {
-    padding: 10px;
 }
 
 .clickMe {
@@ -88,4 +56,25 @@ form input[type=text] {
     text-decoration: underline;
     cursor: pointer;
     cursor: hand;
+    diplay: inline;
+    display:inline-block;
+}
+
+.sideBar {
+    float:left;
+    width:100px;
+    display:inline;
+    padding: 50px 20px;
+    border: solid #ddd;
+    border-width: 0 1px 1px 1px;
+    background: white;
+
+}
+
+ul {
+    list-style-type: none;
+}
+
+.submitComment {
+  display: block;
 }

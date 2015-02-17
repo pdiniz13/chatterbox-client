@@ -13,34 +13,37 @@
     <script src="scripts/app.js"></script>
   </head>
   <body>
-    <div id="sideBar">
-        <ul id="friends">
-
-        </ul>
-    </div>
-    <div id="main">
-      <h1>chatterbox</h1>
-        <button class="refresh">refresh</button>
-
-          <span class="currentUserName">anonymous</span>
+  <div class="wrapper">
+      <div class="sideBar">
+          <label>UserName:</label>
+          <span id="currentUserName">anonymous</span>
           <form action="POST" class="name">
-            <input type="text" id="username">
-            <input type="submit">
+              <input type="text" id="username" placeholder="UserName">
+              <input type="submit" value="Change User">
           </form>
-
-          <span class="currentRoom">lobby</span>
-
-
+          <label>Room:</label>
+          <span id="currentRoom">lobby</span>
           <form action="POST" class="room">
-            <input type="text" id="roomname">
-            <input type="submit">
+              <input type="text" id="roomname" placeholder="New Room">
+              <input type="submit" value="Change Room">
           </form>
-
-        <form action="POST" class="message">
-          <input type="submit">
-        </form>
-      <div class="content">
+          <label>Friends</label>
+          <ul id="friends">
+              <li>test</li>
+              <li>test</li>
+              <li>test</li>
+          </ul>
       </div>
-    </div>
+      <div id="main">
+          <h1>chatterbox</h1>
+          <form action="POST" class="message">
+              <textarea id="text" rows="4" cols="50" placeholder="Your Name Goes Here"></textarea>
+              <input class="submitComment" value="Comment" type="submit">
+          </form>
+          <button class="refresh">refresh</button>
+          <div class="content">
+          </div>
+      </div>
+  </div>
   </body>
 </html>
