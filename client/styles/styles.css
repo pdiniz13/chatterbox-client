@@ -82,3 +82,10 @@ form input[type=text] {
 .spinner img {
     padding: 10px;
 }
+
+.clickMe {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+    cursor: hand;
+}

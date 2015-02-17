@@ -7,6 +7,7 @@
 
     <!-- dependencies -->
     <script src="bower_components/jquery/jquery.min.js"></script>
+    <script src="bower_components/underscore/underscore-min.js"></script>
     <!-- your scripts -->
     <script src="env/config.js"></script>
     <script src="scripts/app.js"></script>
@@ -14,7 +15,27 @@
   <body>
     <div id="main">
       <h1>chatterbox</h1>
-      <!-- Your HTML goes here! -->
+        <button class="refresh">refresh</button>
+
+          <span class="currentUserName">anonymous</span>
+          <form action="POST" class="name">
+            <input type="text" id="username">
+            <input type="submit">
+          </form>
+
+          <span class="currentRoom">lobby</span>
+
+
+          <form action="POST" class="room">
+            <input type="text" id="roomname">
+            <input type="submit">
+          </form>
+
+        <form action="POST" class="message">
+          <input type="submit">
+        </form>
+      <div class="content">
+      </div>
     </div>
   </body>
 </html>
